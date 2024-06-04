@@ -1,0 +1,23 @@
+<div class="account-settings"
+  [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'"
+  >
+  <div class="info-user">
+    <div class="img-source">
+      <img [src]="image" alt="img" class="profile-image" />
+    </div>
+    <div class="primary-data">
+      <span [matTooltip]="userName">usuario</span>
+      <span [matTooltip]="userDependencia">Dependencia</span>
+      <span [matTooltip]="userRole">Role</span>
+    </div>
+  </div>
+  <div class="settings">
+    <button class="theme-button" class="theme-button" (click)="themeService.toggleTheme()" >
+      <mat-icon>{{ themeService.theme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+    <button class="logout" >Cerrar sesión</button>
+    <button class="theme-button" >
+      <mat-icon>settings</mat-icon>
+    </button>
+  </div>
+</div>

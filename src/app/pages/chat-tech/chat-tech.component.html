@@ -1,0 +1,46 @@
+<mat-sidenav-container class="sidenav-container"
+  [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'">
+
+  <mat-sidenav-content class="main-container">
+    <mat-card class="background-chat">
+      <mat-card-content #scrollContainer class="chat-container">
+        <div class="chat-view-initial" *ngIf="!alreadyMessage">
+          <h1 class="chat-view-title">Hola estas en el modo TECH</h1>
+          <h3 class="chat-view-subtitle">Soy tu asistente virtual, y estoy aquí para ayudarte con cualquier duda o consulta que tengas. Piensa en mí como una enciclopedia interactiva, llena de conocimientos y experiencias de casos anteriores. Mi misión es proporcionarte respuestas rápidas y precisas para que encuentres la información que necesitas de manera fácil y eficiente.</h3>
+          <div class="examples-container">
+            <div class="example-card">
+              <h1>Ejemplos</h1>
+              <button mat-raised-button  class="example-button">
+                blabla
+              </button>
+              <button mat-raised-button  class="example-button">
+                blabla
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div  #messagesContainer class="chat-view-chatting"  [class.hidden]="alreadyMessage" >
+          <div class="message-container"  *ngFor="let mensaje of listMensajes">
+            <div class="img-container" >
+              <img src="../../../assets/img/profile.png">
+            </div>
+            <div class="chat-info-container">
+              <div class="message-sender">
+                {{ getMessageType(mensaje) === 'user' ? 'usuario' : 'bot' }}
+              </div>
+              <div class="message-content" >
+                {{ getMessageType(mensaje) === 'user' ? mensaje.content : mensaje.content.content }}
+              </div>
+              <!-- <div class="message-date">
+                {{ fecha | date:'dd/MM/yyyy HH:mm:ss'}}
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+      <textarea type="text" class="input-field" placeholder="" (keyup.enter)="sendMessage($event)"></textarea>
+      <button mat-raised-button (click)="resetConversation()">Reiniciar Conversación</button> <!-- Botón para reiniciar la conversación -->
+    </mat-card>
+  </mat-sidenav-content>
+</mat-sidenav-container>

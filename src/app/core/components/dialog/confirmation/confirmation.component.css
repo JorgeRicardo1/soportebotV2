@@ -1,0 +1,41 @@
+.utp-col {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
+  gap: 0px;
+  background-color: white;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.cancel-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.delete-button {
+  background-color: rgb(221, 51, 51);
+  color: white;
+}
+
+.mat-dialog-title {
+  flex: 0 0 70%;
+  align-items: center;
+  width: 95%;
+  margin: 0;
+  }
+
+.buttons-container{
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.save{
+  background-color: #003d6e;
+  color: white;
+}
+

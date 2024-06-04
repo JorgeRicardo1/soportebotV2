@@ -1,0 +1,11 @@
+<div class="menu-container"
+  [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'"
+  >
+  <button class="utp-select-icon" (click)="toggleMenu()" >
+    <mat-icon class="utp-icon">account_circle</mat-icon>
+  </button>
+
+  <div *ngIf="showMenu" class="data-container">
+    <utp-account></utp-account>
+  </div>
+</div>

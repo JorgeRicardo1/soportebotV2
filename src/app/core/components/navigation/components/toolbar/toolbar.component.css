@@ -1,0 +1,77 @@
+.utp-toolbar {
+  .button-side-menu {
+    font-size: auto;
+  }
+
+  .utp-toolbar-title {
+    padding-left: 10px;
+    text-align: center;
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  utp-menu {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.light-mode {
+  background-color: #f4f4f4;
+  box-shadow: 2px 8px 24px rgba(0, 0, 0, 0.25);
+
+  .button-side-menu {
+    .side-menu-icon {
+      color: #6e7273;
+    }
+  }
+
+  .button-side-menu:hover {
+    background-color: #d8d8d8;
+  }
+
+  .logo-inventario-utp {
+    color: #6e7273;
+  }
+}
+
+.dark-mode {
+  background-color: #212121;
+  box-shadow: 2px 8px 24px rgba(198, 198, 198, 0.25);
+
+  .button-side-menu {
+    .side-menu-icon {
+      color: #dbe3e6;
+    }
+  }
+
+  .button-side-menu:hover {
+    background-color: #292929;
+  }
+
+  .utp-toolbar-title{
+    color: white;
+  }
+}
+
+.tech {
+  background-color: #cefde9;
+  box-shadow: 2px 8px 24px rgba(0, 0, 0, 0.25);
+
+  .button-side-menu {
+    .side-menu-icon {
+      color: #6e7273;
+    }
+  }
+
+  .button-side-menu:hover {
+    background-color: #dcf0ff;
+  }
+
+  .logo-inventario-utp {
+    color: #6e7273;
+  }
+}

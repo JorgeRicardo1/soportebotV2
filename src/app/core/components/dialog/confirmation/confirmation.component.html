@@ -1,0 +1,58 @@
+<main
+  class="utp-col"
+  [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'"
+>
+  <div class="utp-header">
+    <h2 mat-dialog-title class="mat-dialog-title" >
+      Confirma la informacion del equipo
+    </h2>
+    <!-- <h2 mat-dialog-title class="mat-dialog-title" *ngIf="data.mode == 2">
+      Editar - Rol actual:
+    </h2> -->
+    <div class="cancel-button">
+      <button mat-icon-button (click)="onNoClick()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <form class="form-container" [formGroup]="formConfirmation">
+      <div class="utp-col">
+        <div class="utp-document">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Placa</mat-label>
+            <input matInput
+              placeholder="placa del equipo"
+              formControlName="placaEquipo"
+              />
+          </mat-form-field>
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Ubicacion</mat-label>
+            <input matInput
+              formControlName="ubicacionEquipo"
+               />
+          </mat-form-field>
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Detalles extras</mat-label>
+            <input matInput
+              formControlName="detallesEquipo"
+               />
+          </mat-form-field>
+
+          <div class="buttons-container">
+            <div class="utp-actions">
+              <button mat-button class="save" (click)="submitForm()">
+                <mat-icon>save</mat-icon>Crear
+              </button>
+            </div>
+            <div class="utp-actions">
+              <button mat-button class="delete-button" (click)="onNoClick()">
+                <mat-icon>cancel</mat-icon>Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+</main>

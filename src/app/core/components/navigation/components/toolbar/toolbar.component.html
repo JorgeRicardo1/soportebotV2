@@ -1,0 +1,12 @@
+<mat-toolbar
+  class="utp-toolbar"
+  [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'"
+  [ngClass]="{ 'tech': isTechMode }"
+>
+  <button mat-icon-button class="button-side-menu" (click)="emit.emit()">
+    <mat-icon class="side-menu-icon">menu</mat-icon>
+  </button>
+  <h2 class="utp-toolbar-title">{{ title }}</h2>
+  <span class="spacer"></span>
+  <utp-menu></utp-menu>
+</mat-toolbar>

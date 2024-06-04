@@ -1,0 +1,33 @@
+<section class="cases-section"
+  [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'">
+  <div class="cases-container">
+    <mat-card class="case-card" *ngFor="let caso of casosList">
+      <mat-card-content class="card-container">
+        <h2 class="title-card">{{caso.ticket}}</h2>
+        <div class="tracking-state-container">
+          <div class="img-container" [class.active]="caso.state.enviado">
+            <img src="{{ themeService.theme ? '../../../assets/img/email-darkMode.png' : '../../../assets/img/email.png' }}" alt="sended">
+          </div>
+          <div class="conection-line" [class.active]="caso.state.recibido"></div>
+          <div class="img-container" [class.active]="caso.state.recibido">
+            <img src="{{ themeService.theme ? '../../../assets/img/receiver-darkMode.png' : '../../../assets/img/receiver.png' }}" alt="sended">
+          </div>
+          <div class="conection-line" [class.active]="caso.state.enRevision"></div>
+          <div class="img-container" [class.active]="caso.state.enRevision">
+            <img src="{{ themeService.theme ? '../../../assets/img/review-darkMode.png' : '../../../assets/img/review.png' }}" alt="sended">
+          </div>
+          <div class="conection-line" [class.active]="caso.state.solucionado"></div>
+          <div class="img-container" [class.active]="caso.state.solucionado">
+            <img src="{{ themeService.theme ? '../../../assets/img/problem-solving-darkMode.png' : '../../../assets/img/problem-solving.png' }}" alt="sended">
+          </div>
+        </div>
+        <div class="description-texts">
+          <span>Enviado</span>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;Recibido</span>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;Revisión</span>
+          <span>Solucionado</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>

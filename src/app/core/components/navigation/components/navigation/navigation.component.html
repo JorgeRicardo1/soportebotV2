@@ -1,0 +1,61 @@
+<mat-sidenav-container
+  class="sidenav-container"
+  [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'"
+  [ngClass]="{ 'tech': isTechMode }"
+  >
+  <mat-sidenav
+    class="sidenav"
+    mode="side"
+    [class.menu-open]="isMenuOpen"
+    [class.menu-close]="!isMenuOpen"
+    opened>
+
+    <section class="logo-container">
+      <img
+        class="logo-inventary-utp"
+        [src]="'/assets/img/logoutp.svg'"
+
+      />
+      <!-- falta un click" -->
+    </section >
+
+    <section class="buttons">
+      <div class="buttons-entries">
+        <ng-container *ngFor="let entry of menuEntries">
+          <a
+            class="button"
+            *ngIf="!entry.children"
+            (click)="navigateRoute(entry.route)"
+            mat-button
+            matTooltip="{{ entry.text }}"
+            [matTooltipPositionAtOrigin]
+          >
+            <mat-icon>{{ entry.icon }}</mat-icon>
+            <span class="text-module" *ngIf="isMenuOpen">{{ entry.text }}</span>
+          </a>
+        </ng-container>
+      </div>
+      <div class="end-button">
+        <a class="button end"
+          mat-button
+          (click)="toggleTechMode()"
+          >
+          <mat-icon>build</mat-icon>
+          <span class="text-module" *ngIf="isMenuOpen">Modo tecnico</span>
+        </a>
+      </div>
+
+    </section>
+  </mat-sidenav>
+
+  <mat-sidenav-content
+    class="navigation-background"
+    [ngStyle]="{ 'margin-left.px': contentMargin }">
+    <utp-toolbar (emit)="onToolbarMenuToggle()"></utp-toolbar>
+    <main class="main-container">
+      <utp-layout></utp-layout>
+    </main>
+  </mat-sidenav-content>
+
+
+</mat-sidenav-container>

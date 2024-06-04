@@ -1,0 +1,54 @@
+<mat-sidenav-container class="sidenav-container" [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'">
+
+  <mat-sidenav-content class="main-container">
+    <mat-card class="background-chat">
+      <mat-card-content #scrollContainer class="chat-container">
+        <div class="chat-view-initial" *ngIf="!alreadyMessage">
+          <h1 class="chat-view-title">Hola soy Soporte bot</h1>
+          <h3 class="chat-view-subtitle">Te puedo ayudar con el soporte tecnico de equipos universitarios</h3>
+          <div class="examples-container">
+            <div class="example-card">
+              <h1>Información</h1>
+              <button mat-raised-button (click)="sendSuggestion('No funciona el teclado del i-j del salon13b-210')" class="example-button">
+                No funciona el teclado del i-j del salon13b-210
+              </button>
+              <button mat-raised-button (click)="sendSuggestion('El computador con placa 122345 no tiene conexión a internet')" class="example-button">
+                El computador con placa 122345 no tiene conexión a internet
+              </button>
+            </div>
+            <div class="example-card">
+              <h1>Problemas</h1>
+              <button class="example-btn" mat-raised-button (click)="sendSuggestion('No prende el equipo con placa 1234')" class="example-button">
+                No prende el equipo con placa 1234
+              </button>
+              <button mat-raised-button (click)="sendSuggestion('En el computador con placa 54321 sale un error')" class="example-button">
+                En el computador con placa 54321 sale un error
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div  #messagesContainer class="chat-view-chatting"  [class.hidden]="alreadyMessage" >
+          <div class="message-container"  *ngFor="let mensaje of listMensajes">
+            <div class="img-container" >
+              <img src="../../../assets/img/profile.png">
+            </div>
+            <div class="chat-info-container">
+              <div class="message-sender">
+                {{ getMessageType(mensaje) === 'user' ? 'usuario' : 'bot' }}
+              </div>
+              <div class="message-content" >
+                {{ getMessageType(mensaje) === 'user' ? mensaje.content : mensaje.content.content }}
+              </div>
+              <!-- <div class="message-date">
+                {{ fecha | date:'dd/MM/yyyy HH:mm:ss'}}
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+      <textarea type="text" class="input-field" placeholder="" (keyup.enter)="sendMessage($event)"></textarea>
+      <button mat-raised-button (click)="resetConversation()">Reiniciar Conversación</button> <!-- Botón para reiniciar la conversación -->
+    </mat-card>
+  </mat-sidenav-content>
+</mat-sidenav-container>

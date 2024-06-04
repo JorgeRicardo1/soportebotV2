@@ -1,0 +1,142 @@
+section {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff00;
+  column-gap: 30px;
+  background-image: url('../../../../../assets/img/fondo.png');
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-size: cover;
+
+}
+
+.utp-login {
+  height: 60%;
+  width: 50%;
+  max-width: 350px;
+  max-height: 540px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.shadow {
+  box-shadow: rgba(31, 31, 46, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px,
+    rgba(17, 17, 26, 0.1) 0px 24px 80px;
+    background: transparent;
+}
+
+.utp-logo-container {
+  max-width: 300px;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.utp-logo {
+  height: 100%;
+  width: 100%;
+  max-width: 100px;
+}
+
+.login-form {
+  height: 45%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+}
+
+.form-input {
+  width: 100%;
+  height: 50%;
+  margin-bottom: 5px;
+}
+
+.form-input-password {
+  width: 100%;
+  height: 50%;
+  margin-bottom: 5px;
+
+  input {
+    width: 86%;
+  }
+
+  mat-icon {
+    margin-left: 5%;
+    margin-bottom: -8px;
+    color: #6e7273;
+  }
+}
+
+.form-input :focus {
+  border: solid 2px #1a73e8;
+  color: #000000;
+}
+
+.forgot-password {
+  width: 90%;
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.forgot-password a {
+  color: #0171d3;
+  text-decoration: none;
+}
+
+.actions-container {
+  height: 20%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons-container {
+  height: 15%;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+
+.buttons-container .ingresar-button {
+  color: #fff;
+  background-color: #003f6a;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 45%;
+}
+
+.buttons-container .ingresar-button:hover {
+  background-color: #016dcb;
+}
+
+.buttons-container .limpiar-button {
+  color: #000000;
+  background-color: #e4e4e4;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 45%;
+}
+
+.buttons-container .limpiar-button:hover {
+  background-color: #d6d6d6;
+}
+
+.form-link2 {
+  height: 10%;
+  text-align: center;
+  margin: 20px;
+  font-size: small;
+}
