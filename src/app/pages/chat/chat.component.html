@@ -31,14 +31,14 @@
         <div  #messagesContainer class="chat-view-chatting"  [class.hidden]="alreadyMessage" >
           <div class="message-container"  *ngFor="let mensaje of listMensajes">
             <div class="img-container" >
-              <img src="../../../assets/img/profile.png">
+              <img [src]="getMessageType(mensaje) === 'bot' ? defaultImage : image" alt="img">
             </div>
             <div class="chat-info-container">
               <div class="message-sender">
-                {{ getMessageType(mensaje) === 'user' ? 'usuario' : 'bot' }}
+                {{ getMessageType(mensaje) }}
               </div>
               <div class="message-content" >
-                {{ getMessageType(mensaje) === 'user' ? mensaje.content : mensaje.content.content }}
+                {{ getMessageType(mensaje) === 'bot' ?  mensaje.content.content : mensaje.content }}
               </div>
               <!-- <div class="message-date">
                 {{ fecha | date:'dd/MM/yyyy HH:mm:ss'}}

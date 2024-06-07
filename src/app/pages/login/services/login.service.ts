@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, catchError, of, tap } from 'rxjs';
 import { StorageKey } from '../../../core/services/storage/storage.model';
 import { CrudService } from '../../../core/services/http/crud.service';
 import { GetLogin } from '../interfaces/get-login.interface';
 import { UserLogin } from '../interfaces/user-login.interface';
 import { AuthService } from '../../../auth/auth.service';
 import { URL } from '../../../core/services/http/baseurl'
+import { UserInformation } from '../../../shared/interfaces/user-information.interface';
 
 
 
@@ -20,7 +21,27 @@ export class LoginService extends CrudService {
   endpoint = 'auth/login';
   token!: string;
 
+  userInfo : UserInformation = {
+    document: '1004752660',
+    identityType: 0,
+    firstName: '',
+    lastName: '',
+    email: '',
+    passWord: '',
+    role: 4,
+    charge: '',
+    contractType: '',
+    dependency: '',
+    country: 0,
+    companyId: 0
+  }
+
   private role!: string | undefined;
+
+
+
+  private userInformationSubject = new BehaviorSubject<UserInformation>(this.userInfo);
+  userInformation$ = this.userInformationSubject.asObservable();
 
   constructor(public httpClient: HttpClient, private authService: AuthService) {
     super(httpClient);
@@ -45,4 +66,7 @@ export class LoginService extends CrudService {
         }),
       );
   }
+
+
+
 }

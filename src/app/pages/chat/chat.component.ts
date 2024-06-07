@@ -30,6 +30,9 @@ import { CasosService } from '../cases/services/casos.service';
 import { Caso } from '../cases/interfaces/caso';
 import { finalize } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid'; // Asegúrate de instalar uuid si no lo tienes instalado
+import { DataField } from '../../shared/interfaces/data-field-aranda.interface';
+import { UserInformation } from '../../shared/interfaces/user-information.interface';
+import { ArandaServicesService } from '../../core/services/aranda/aranda-services.service';
 
 @Component({
   selector: 'app-chat',
@@ -78,9 +81,39 @@ export class ChatComponent implements OnInit {
     ubicacion: '',
   };
 
+  defaultUserInformation: UserInformation = {
+    document: '',
+    identityType: 0,
+    firstName: '',
+    lastName: '',
+    email: '',
+    passWord: '',
+    role: 0,
+    charge: '',
+    contractType: '',
+    dependency: '',
+    country: 0,
+    companyId: 0
+  };
+
+  jsonData: DataField[] = [
+    { Field: "Id", Value: "" },
+    { Field: "FullName", Value: "" },
+    { Field: "Email", Value: "" },
+    { Field: "Charge", Value: "" },
+    { Field: "IdentityType", Value: "" },
+    { Field: "Document", Value: "" },
+    { Field: "AdditionalField2", Value: "" },
+    { Field: "AdditionalField3", Value: "" },
+    { Field: "AdditionalField4", Value: "" },
+    { Field: "Country", Value: "" },
+    { Field: "CompanyId", Value: "" }
+  ];
+
   listMensajes: any = [];
   sharedList: any[] = [];
-  imagen: '../../../assets/img/profile.png' | undefined;
+  defaultImage = '../../../assets/img/profile.png';
+  image: any = '';
 
   ticket = '';
   resumen = '';
@@ -95,22 +128,45 @@ export class ChatComponent implements OnInit {
     private snackbarService: SnackbarService,
     private router: Router,
     protected casosService: CasosService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private arandaService: ArandaServicesService
   ) {
     this.alreadyMessage = false;
   }
 
   ngOnInit(): void {
     // this.listMensajes = this.messageService.getLocalMessages();
+    const storedImage = sessionStorage.getItem('userImage');
+    if (storedImage) {
+      this.image = storedImage;
+    }
+
   }
 
   ngAfterViewInit(): void {
     console.log('afterViewInit');
   }
 
-  getMessageType(message: any): 'user' | 'bot' {
+  getMessageType(message: any): string {
     // Asumiendo que 'success' es una propiedad única de BotMessage
-    return message.hasOwnProperty('success') ? 'bot' : 'user';
+    const userInfo = localStorage.getItem('InfoUsuario');
+    if(!message.hasOwnProperty('success')){
+      const parsedUserInfo = userInfo ? JSON.parse(userInfo) : null;
+      return parsedUserInfo.firstName + ' ' + parsedUserInfo.lastName;
+    }
+    else{
+      return 'bot'
+    }
+  }
+
+  getImageForMessageType(message: any): string {
+    if (message.hasOwnProperty('success')) {
+      // Devuelve la ruta de la imagen para el tipo de mensaje 'bot'
+      return '../../../assets/img/profile.png';
+    } else {
+      // Devuelve la ruta de la imagen predeterminada o para otros tipos de mensaje
+      return this.image;
+    }
   }
 
   sendMessage(event: Event) {
@@ -138,10 +194,7 @@ export class ChatComponent implements OnInit {
           this.sendConfirmationCaseMessage();
         }
         this.cdr.detectChanges();
-        console.log('dectectchanges');
         this.scrollToLastMessage();
-
-        // this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
       });
     input.value = '';
   }
@@ -197,6 +250,18 @@ export class ChatComponent implements OnInit {
 
           console.log(this.infoEquipo);
           this.casoNuevo.ticket = this.infoEquipo.ticket;
+
+          // informacion usuario guardada en el local storage traida ya como un objeto
+          const storedData = this.getDataFromLocalStorage();
+
+          this.jsonData = this.fillJsonData(this.jsonData, storedData);
+
+          const jsonString = JSON.stringify(this.jsonData);
+          this.arandaService.updateUserAranda(jsonString, 213890).subscribe(response => {
+            console.log('Response from server chat:', response);
+          }, error => {
+            console.error('Error:', error);
+    });
 
           this.casosService.addCaso(this.casoNuevo);
         } else {
@@ -280,4 +345,47 @@ export class ChatComponent implements OnInit {
     this.listMensajes = []; // Limpiar la lista de mensajes
     this.alreadyMessage = false; // Reiniciar la variable de estado
   }
+
+  getDataFromLocalStorage(): UserInformation {
+    const jsonData = localStorage.getItem('InfoUsuario');
+    if (jsonData) {
+      return JSON.parse(jsonData) as UserInformation;
+    }
+    return this.defaultUserInformation;
+  }
+
+  // funcion para llenar el json que se le manda al servicio de aranda con la informacion del Usuario
+  // para actualizarlo en la base de datos de aranda
+  fillJsonData(jsonData: DataField[], storedData: UserInformation): DataField[] {
+  return jsonData.map(field => {
+    switch (field.Field) {
+      case "Id":
+        return { ...field, Value: storedData.document };
+      case "FullName":
+        return { ...field, Value: `${storedData.firstName} ${storedData.lastName}` };
+      case "Email":
+        return { ...field, Value: storedData.email };
+      case "Charge":
+        return { ...field, Value: storedData.charge };
+      case "IdentityType":
+        return { ...field, Value: storedData.identityType.toString() };
+      case "Document":
+        return { ...field, Value: storedData.document };
+      case "Role":
+        return { ...field, Value: storedData.role.toString() };
+      case "Country":
+        return { ...field, Value: storedData.country.toString() };
+      case "CompanyId":
+        return { ...field, Value: storedData.companyId.toString() };
+      case "AdditionalField2":
+        return { ...field, Value: storedData.contractType };
+      case "AdditionalField3":
+        return { ...field, Value: this.infoEquipo.ubicacion };
+      case "AdditionalField4":
+        return { ...field, Value: storedData.dependency };
+      default:
+        return field;
+    }
+  });
+}
 }

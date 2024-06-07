@@ -6,6 +6,7 @@ import { StorageKey } from '../core/services/storage/storage.model';
 
 import { StorageService } from '../core/services/storage/storage.service';
 import { DataAccess } from './interfaces/auth.interface';
+import { UserInformation } from '../shared/interfaces/user-information.interface';
 
 const { AUTH_TOKEN } = StorageKey;
 
@@ -19,6 +20,8 @@ export class AuthService extends CrudService {
   private tokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<
   string | null
   >('');
+
+  userInformation! : UserInformation;
 
   constructor(http: HttpClient, private storage: StorageService) {
     super(http);
@@ -121,5 +124,9 @@ export class AuthService extends CrudService {
 
   isLogged(): Observable<boolean> {
     return this.token$.pipe(map((token) => (token ? true : false)));
+  }
+
+  getUserInfo() : Observable<UserInformation>{
+    return this.post<any>('','user-information/get-information')
   }
 }

@@ -6,9 +6,9 @@
       <img [src]="image" alt="img" class="profile-image" />
     </div>
     <div class="primary-data">
-      <span [matTooltip]="userName">usuario</span>
-      <span [matTooltip]="userDependencia">Dependencia</span>
-      <span [matTooltip]="userRole">Role</span>
+      <span [matTooltip]="userName"> {{ userInformation.lastName}} {{ userInformation.firstName}} </span>
+      <span [matTooltip]="userDependencia"> {{ userInformation.dependency}} </span>
+      <span [matTooltip]="userRole">{{ userInformation.charge}}</span>
     </div>
   </div>
   <div class="settings">
