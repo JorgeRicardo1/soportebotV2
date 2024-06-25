@@ -151,6 +151,7 @@ export class ChatComponent implements OnInit {
     // Asumiendo que 'success' es una propiedad única de BotMessage
     const userInfo = localStorage.getItem('InfoUsuario');
     if(!message.hasOwnProperty('success')){
+
       const parsedUserInfo = userInfo ? JSON.parse(userInfo) : null;
       return parsedUserInfo.firstName + ' ' + parsedUserInfo.lastName;
     }

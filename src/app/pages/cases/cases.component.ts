@@ -5,11 +5,13 @@ import { MaterialModule } from '../../shared/material/material.module';
 import { ThemeService } from '../../core/components/navigation/services/theme.service';
 import { CasosService } from './services/casos.service'
 import { Caso } from './interfaces/caso';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 @Component({
   selector: 'app-cases',
   standalone: true,
-  imports: [RouterLinkWithHref, MaterialModule, CommonModule],
+  imports: [RouterLinkWithHref, MaterialModule, CommonModule ,MatExpansionModule],
   templateUrl: './cases.component.html',
   styleUrl: './cases.component.css'
 })

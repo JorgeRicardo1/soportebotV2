@@ -48,7 +48,7 @@ export class ConfirmationComponent {
   }
 
   submitForm(): void {
-    if (this.formConfirmation.valid === true){
+    if (this.formConfirmation.valid === true ){
 
       const infoEnviar : infoEquipo = {
         placa : Number(this.formConfirmation.get('placaEquipo')?.value),

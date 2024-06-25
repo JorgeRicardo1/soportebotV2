@@ -53,7 +53,6 @@ export class AccountComponent {
     }
 
     const userInfo = localStorage.getItem('InfoUsuario');
-    console.log(userInfo);
     const parsedUserInfo = userInfo ? JSON.parse(userInfo) : null;
 
     // Si userInfo es un array, tomamos el primer elemento

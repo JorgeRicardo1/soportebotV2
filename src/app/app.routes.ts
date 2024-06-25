@@ -1,16 +1,18 @@
 import { Routes } from '@angular/router';
 import { NavigationComponent } from './core/components/navigation/components/navigation/navigation.component';
 import { LoginComponent } from './pages/login/components/login/login.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'login',
     component: LoginComponent
   },
   {
     path: '',
     component: NavigationComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'chat',

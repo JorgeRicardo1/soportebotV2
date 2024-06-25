@@ -14,11 +14,14 @@
   .case-card {
     border-radius: 20px;
     width: 100%;
+
     .card-container {
-      display: grid;
-      border-radius: 20px;
+      height: auto;
 
-
+      .card-container-content{
+        display: grid;
+        border-radius: 20px;
+      }
       .tracking-state-container {
         display: flex;
         align-items: center;
@@ -68,8 +71,8 @@
 
     .card-container {
 
-
       box-shadow: 5px 8px 3px rgb(0 0 0 / 0.346);
+
 
       .title-card {
         color: #003E6E;
@@ -143,6 +146,9 @@
       .description-texts{
         color: #f5f5f5 ;
       }
+    }
+    .resumen-caso{
+      color: #f5f5f5;
     }
   }
 }

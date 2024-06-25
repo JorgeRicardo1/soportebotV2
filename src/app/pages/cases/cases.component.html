@@ -1,9 +1,10 @@
 <section class="cases-section"
   [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'">
   <div class="cases-container">
-    <mat-card class="case-card" *ngFor="let caso of casosList">
-      <mat-card-content class="card-container">
-        <h2 class="title-card">{{caso.ticket}}</h2>
+    <mat-expansion-panel class="case-card" *ngFor="let caso of casosList">
+      <mat-expansion-panel-header class="card-container">
+        <mat-panel-title class="card-container-content">
+          <h2 class="title-card">{{caso.ticket}}</h2>
         <div class="tracking-state-container">
           <div class="img-container" [class.active]="caso.state.enviado">
             <img src="{{ themeService.theme ? '../../../assets/img/email-darkMode.png' : '../../../assets/img/email.png' }}" alt="sended">
@@ -27,7 +28,10 @@
           <span>&nbsp;&nbsp;&nbsp;&nbsp;Revisión</span>
           <span>Solucionado</span>
         </div>
-      </mat-card-content>
-    </mat-card>
+        </mat-panel-title>
+
+      </mat-expansion-panel-header>
+      <p class="resumen-caso">{{ caso.resume }}</p>
+    </mat-expansion-panel>
   </div>
 </section>

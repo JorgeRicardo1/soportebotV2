@@ -57,7 +57,7 @@ export class LoginService extends CrudService {
             this.authService.saveToken(response.token);
           }
           else{
-            console.log("paila2")
+            console.log(response?.token)
           }
         }),
         catchError((error) => {
