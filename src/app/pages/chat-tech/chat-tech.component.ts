@@ -58,23 +58,22 @@ export class ChatTechComponent {
   };
 
   casoNuevo : Caso = {
-    ticket: '',
-    user: {name : 'Andres', code : '1088035677'},
-    date: new Date(),
-    resume: '',
-    state: {
-      recibido : true,
-      enviado : true,
-      enRevision: false,
-      solucionado: false
-    }
+    id: 85849, // number
+    subject: "Prueba1", // string
+    authorName: "Grajales Echeverri Cristhian Darío", // string
+    companyName: "Nova Informàtica Ltda.", // string
+    groupName: "Soporte Segundo Nivel", // string
+    priorityName: "MEDIUM", // string
+    stateName: "Registrado", // string
+    registrationDate: "2024-07-04T20:24:32.000Z", // string
+    solutionDateExpected: "2024-07-05T15:09:04.000Z" // strin
   }
 
   infoEquipo : infoEquipo = {
     usuario: {name : 'Andres', code : '1088035677'},
     placa: 0,
     resumen: '',
-    ticket: '',
+    ticket: 0,
     detalles: '',
     ubicacion: ''
   }
@@ -94,10 +93,6 @@ export class ChatTechComponent {
     // this.listMensajes = this.messageService.getLocalMessages();
   }
 
-  ngAfterViewInit(): void {
-    console.log("afterViewInit")
-
-  }
 
   getMessageType(message: any): 'user' | 'bot' {
     // Asumiendo que 'success' es una propiedad única de BotMessage
@@ -125,7 +120,6 @@ export class ChatTechComponent {
       // this.messageService.saveLocalMessage(respuesta);
 
       this.cdr.detectChanges()
-      console.log('dectectchanges')
       this.scrollToLastMessage();
 
       // this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
@@ -137,7 +131,6 @@ export class ChatTechComponent {
     const observer = new MutationObserver((mutations) => {
       if (mutations.length) {
         this.messagesContainer.nativeElement.lastElementChild.scrollIntoView({ behavior: 'smooth' });
-        console.log('scrolie')
         // observer.disconnect(); // Importante desconectar el observer para evitar fuga de memoria
       }
     });

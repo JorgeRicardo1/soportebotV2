@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CrudService } from '../../../core/services/http/crud.service';
@@ -14,6 +14,8 @@ export class MessagesService extends CrudService {
   endpoint = 'chat/completion';
   private userMessagesKey = 'userMessages';
   private botMessagesKey = 'botMessages';
+
+  messagesListSignal: WritableSignal<any[]> = signal([]);
 
   constructor(http: HttpClient) {
     super(http);

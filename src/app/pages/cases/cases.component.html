@@ -4,34 +4,36 @@
     <mat-expansion-panel class="case-card" *ngFor="let caso of casosList">
       <mat-expansion-panel-header class="card-container">
         <mat-panel-title class="card-container-content">
-          <h2 class="title-card">{{caso.ticket}}</h2>
+          <h2 class="title-card">{{caso.subject}}</h2>
         <div class="tracking-state-container">
-          <div class="img-container" [class.active]="caso.state.enviado">
+          <div class="img-container" [class.active]="true">
             <img src="{{ themeService.theme ? '../../../assets/img/email-darkMode.png' : '../../../assets/img/email.png' }}" alt="sended">
           </div>
-          <div class="conection-line" [class.active]="caso.state.recibido"></div>
-          <div class="img-container" [class.active]="caso.state.recibido">
+          <div class="conection-line" [class.active]="caso.stateName === 'En Proceso' || caso.stateName === 'Solucionado'"></div>
+          <div class="img-container" [class.active]="caso.stateName === 'En Proceso' || caso.stateName === 'Solucionado'">
             <img src="{{ themeService.theme ? '../../../assets/img/receiver-darkMode.png' : '../../../assets/img/receiver.png' }}" alt="sended">
           </div>
-          <div class="conection-line" [class.active]="caso.state.enRevision"></div>
-          <div class="img-container" [class.active]="caso.state.enRevision">
+          <div class="conection-line" [class.active]="caso.stateName === 'Solucionado' "></div>
+          <div class="img-container" [class.active]="caso.stateName === 'Solucionado'">
             <img src="{{ themeService.theme ? '../../../assets/img/review-darkMode.png' : '../../../assets/img/review.png' }}" alt="sended">
           </div>
-          <div class="conection-line" [class.active]="caso.state.solucionado"></div>
-          <div class="img-container" [class.active]="caso.state.solucionado">
+          <div class="conection-line" [class.active]="caso.stateName === 'Cerrado'"></div>
+          <div class="img-container" [class.active]="caso.stateName === 'Cerrado'">
             <img src="{{ themeService.theme ? '../../../assets/img/problem-solving-darkMode.png' : '../../../assets/img/problem-solving.png' }}" alt="sended">
           </div>
         </div>
         <div class="description-texts">
-          <span>Enviado</span>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;Recibido</span>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;Revisión</span>
+          <span>Registrado</span>
+          <span>En Proceso</span>
           <span>Solucionado</span>
+          <span>Cerrado</span>
         </div>
         </mat-panel-title>
 
       </mat-expansion-panel-header>
-      <p class="resumen-caso">{{ caso.resume }}</p>
+      <!-- <p class="resumen-caso">{{ caso.subject }}</p> -->
+      <p class="creacion-caso">Fecha creación {{ caso.registrationDate | date:'yyyy-MM-dd hh:mm:ss'}}</p>
+      <p class="aproximada-caso">Fecha aproximada {{ caso.solutionDateExpected | date:'yyyy-MM-dd hh:mm:ss'}}</p>
     </mat-expansion-panel>
   </div>
 </section>

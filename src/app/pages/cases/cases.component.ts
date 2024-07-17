@@ -23,6 +23,11 @@ export class CasesComponent {
     protected themeService: ThemeService,
     protected casosService: CasosService
   ){
-    this.casosList = casosService.getCasos();
+    casosService.getCasosPost().subscribe(( respuesta : Caso[] ) => {
+      this.casosList = respuesta;
+    });
+
+    // this.casosList = casosService.sendCasePost();
+
   }
 }

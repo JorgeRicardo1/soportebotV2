@@ -36,13 +36,13 @@ export class ConfirmationComponent {
     ubicacion: '',
     detalles: '',
     resumen: '',
-    ticket: ''
+    ticket: 0
   }
 
   constructor(
     protected themeService: ThemeService,
     public dialogRef: MatDialogRef<infoEquipo>,
-    @Inject(MAT_DIALOG_DATA) public data: {ticket: string, resumen: string}
+    @Inject(MAT_DIALOG_DATA) public data: {ticket: number, resumen: string}
   ){
 
   }

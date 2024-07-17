@@ -29,7 +29,7 @@
         </div>
 
         <div  #messagesContainer class="chat-view-chatting"  [class.hidden]="alreadyMessage" >
-          <div class="message-container"  *ngFor="let mensaje of listMensajes">
+          <div class="message-container"  *ngFor="let mensaje of messages">
             <div class="img-container" >
               <img [src]="getMessageType(mensaje) === 'bot' ? defaultImage : image" alt="img">
             </div>

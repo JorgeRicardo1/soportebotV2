@@ -9,7 +9,7 @@ import {
 import { ObserversModule } from '@angular/cdk/observers';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MaterialModule } from '../../shared/material/material.module';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { MessagesService } from './services/messages.service';
 import { BotMessage } from './interfaces/bot-message';
 import { UserMessage } from './interfaces/user-message';
@@ -33,6 +33,7 @@ import { v4 as uuidv4 } from 'uuid'; // Asegúrate de instalar uuid si no lo tie
 import { DataField } from '../../shared/interfaces/data-field-aranda.interface';
 import { UserInformation } from '../../shared/interfaces/user-information.interface';
 import { ArandaServicesService } from '../../core/services/aranda/aranda-services.service';
+import { InfoCase } from './interfaces/info-case';
 
 @Component({
   selector: 'app-chat',
@@ -60,23 +61,22 @@ export class ChatComponent implements OnInit {
   };
 
   casoNuevo: Caso = {
-    ticket: '',
-    user: { name: 'Andres', code: '1088035677' },
-    date: new Date(),
-    resume: '',
-    state: {
-      recibido: true,
-      enviado: true,
-      enRevision: false,
-      solucionado: false,
-    },
+    id: 85849, // number
+    subject: "Prueba1", // string
+    authorName: "Grajales Echeverri Cristhian Darío", // string
+    companyName: "Nova Informàtica Ltda.", // string
+    groupName: "Soporte Segundo Nivel", // string
+    priorityName: "MEDIUM", // string
+    stateName: "Registrado", // string
+    registrationDate: "2024-07-04T20:24:32.000Z", // string
+    solutionDateExpected: "2024-07-05T15:09:04.000Z" // strin
   };
 
   infoEquipo: infoEquipo = {
     usuario: { name: 'Andres', code: '1088035677' },
     placa: 0,
     resumen: '',
-    ticket: '',
+    ticket: 0,
     detalles: '',
     ubicacion: '',
   };
@@ -118,6 +118,12 @@ export class ChatComponent implements OnInit {
   ticket = '';
   resumen = '';
 
+  bodyCasoNuevo : InfoCase = {
+    description: '',
+    subject: ''
+  };
+
+
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
@@ -131,7 +137,8 @@ export class ChatComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private arandaService: ArandaServicesService
   ) {
-    this.alreadyMessage = false;
+    console.log(this.messageService.messagesListSignal().length > 0);
+    this.alreadyMessage = this.messageService.messagesListSignal().length > 0 ? true : false;
   }
 
   ngOnInit(): void {
@@ -143,9 +150,6 @@ export class ChatComponent implements OnInit {
 
   }
 
-  ngAfterViewInit(): void {
-    console.log('afterViewInit');
-  }
 
   getMessageType(message: any): string {
     // Asumiendo que 'success' es una propiedad única de BotMessage
@@ -181,14 +185,14 @@ export class ChatComponent implements OnInit {
     };
 
     this.listMensajes.push(userMessageToSend);
-    // this.messageService.saveLocalMessage(userMessageToSend);
-
-    // this.sendConfirmationCaseMessage();
+    //guarda el mensaje en la lista que esta en los servicios de mensajes
+    this.messageService.messagesListSignal.update(messages => ([...messages, userMessageToSend]))
 
     this.messageService
       .sendMessagePost(userMessageToSend)
       .subscribe((respuesta: BotMessage) => {
         this.listMensajes.push(respuesta);
+        this.messageService.messagesListSignal.update(messages => ([...messages, respuesta]))
         // this.messageService.saveLocalMessage(respuesta);
 
         if (respuesta.content.ticket == true) {
@@ -196,8 +200,14 @@ export class ChatComponent implements OnInit {
         }
         this.cdr.detectChanges();
         this.scrollToLastMessage();
+        console.log('el signal:',this.messageService.messagesListSignal())
       });
     input.value = '';
+    console.log('el signal:',this.messageService.messagesListSignal())
+  }
+
+  get messages() {
+    return this.messageService.messagesListSignal();
   }
 
   scrollToLastMessage() {
@@ -206,7 +216,6 @@ export class ChatComponent implements OnInit {
         this.messagesContainer.nativeElement.lastElementChild.scrollIntoView({
           behavior: 'smooth',
         });
-        console.log('scrolie');
         // observer.disconnect(); // Importante desconectar el observer para evitar fuga de memoria
       }
     });
@@ -235,7 +244,6 @@ export class ChatComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe((result: infoEquipo) => {
         if (result) {
-          console.log(result);
 
           this.snackbarService.openCustomSnackbar(
             'Caso creado',
@@ -244,13 +252,13 @@ export class ChatComponent implements OnInit {
           this.infoEquipo.placa = result.placa;
           this.infoEquipo.ubicacion = result.ubicacion;
           this.infoEquipo.detalles = result.detalles;
-
+          //una vez creado el caso se borran los mensajes
+          this.messageService.messagesListSignal.set([]);
           setTimeout(() => {
             this.router.navigate(['/casos']);
           }, 1000);
 
-          console.log(this.infoEquipo);
-          this.casoNuevo.ticket = this.infoEquipo.ticket;
+          this.casoNuevo.id = this.infoEquipo.ticket;
 
           // informacion usuario guardada en el local storage traida ya como un objeto
           const storedData = this.getDataFromLocalStorage();
@@ -259,12 +267,18 @@ export class ChatComponent implements OnInit {
 
           const jsonString = JSON.stringify(this.jsonData);
           this.arandaService.updateUserAranda(jsonString, 213890).subscribe(response => {
-            console.log('Response from server chat:', response);
           }, error => {
             console.error('Error:', error);
     });
 
-          this.casosService.addCaso(this.casoNuevo);
+          // this.casosService.addCaso(this.casoNuevo);
+          console.log("el body:", this.bodyCasoNuevo)
+          const stringBody = JSON.stringify(this.bodyCasoNuevo);
+          const stringBodyWithoutAccents = this.removeAccents(stringBody);
+
+          this.casosService.createCasoPost(stringBodyWithoutAccents).subscribe((respuesta) => {
+            console.log("caso creado?", respuesta)
+          })
         } else {
           this.snackbarService.openCustomSnackbar(
             'Caso no creado',
@@ -294,13 +308,13 @@ export class ChatComponent implements OnInit {
   }
 
   sendMensajeResumen() {
-    let ticket = '';
+    let ticket = 0;
     let resumen = '';
     const mensajeAux: UserMessage = {
       conversationId: this.newMessage.conversationId,
       role: this.newMessage.role,
       content:
-        'Crea un json que tenga dos elementos, el resumen de la interaccion y el ticket, solo dame el json no digas nada mas',
+        'Crea un json que tenga dos elementos, el resumen de la interaccion y un asunto que sintetice el motivo, solo dame el json no digas nada mas ejemplo { "description": "resumen",  "subject": "asunto"}',
     };
 
     this.messageService
@@ -309,13 +323,21 @@ export class ChatComponent implements OnInit {
         this.botRespuesta = respuesta;
         // this.ticket = JSON.parse(this.botRespuesta.content.content).ticket;
         // this.resumen = JSON.parse(this.botRespuesta.content.content).resumen;
-        ticket = JSON.parse(this.botRespuesta.content.content).ticket;
-        resumen = JSON.parse(this.botRespuesta.content.content).resumen;
+        console.log("resumen y asunto:",respuesta);
+        this.bodyCasoNuevo = JSON.parse(respuesta.content.content);
 
-        this.infoEquipo.resumen = resumen;
-        this.infoEquipo.ticket = ticket;
-        this.fecha = new Date();
+        // ticket = JSON.parse(this.botRespuesta.content.content).ticket;
+        // resumen = JSON.parse(this.botRespuesta.content.content).resumen;
+
+        // this.infoEquipo.resumen = resumen;
+        // this.infoEquipo.ticket = ticket;
+        // this.fecha = new Date();
       });
+  }
+
+  // Función para quitar las tildes
+  removeAccents(str : string) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
   sendSuggestion(suggestionText: string) {
@@ -345,6 +367,7 @@ export class ChatComponent implements OnInit {
     this.newMessage.conversationId = uuidv4(); // Generar un nuevo UUID
     this.listMensajes = []; // Limpiar la lista de mensajes
     this.alreadyMessage = false; // Reiniciar la variable de estado
+    this.messageService.messagesListSignal.set([]);
   }
 
   getDataFromLocalStorage(): UserInformation {

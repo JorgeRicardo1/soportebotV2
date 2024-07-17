@@ -7,5 +7,5 @@ export interface infoEquipo  {
   ubicacion?: string,
   detalles?: string,
   resumen : string,
-  ticket : string
+  ticket : number
 }
