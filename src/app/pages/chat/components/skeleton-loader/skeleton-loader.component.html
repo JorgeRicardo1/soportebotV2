@@ -1,0 +1,16 @@
+<div *ngIf="skeletonLoaderService.showLoader" class="message-container" [ngClass]="themeService.theme ? 'dark-mode' : 'light-mode'">
+  <div class="img-container pulse" >
+    <div></div>
+  </div>
+  <div class="chat-info-container pulse">
+    <div class="message-sender">
+      bot
+    </div>
+    <div class="message-content pulse" >
+      hola quien sos
+    </div>
+    <!-- <div class="message-date">
+      {{ fecha | date:'dd/MM/yyyy HH:mm:ss'}}
+    </div> -->
+  </div>
+</div>

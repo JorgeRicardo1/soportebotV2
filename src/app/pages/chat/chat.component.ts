@@ -34,11 +34,12 @@ import { DataField } from '../../shared/interfaces/data-field-aranda.interface';
 import { UserInformation } from '../../shared/interfaces/user-information.interface';
 import { ArandaServicesService } from '../../core/services/aranda/aranda-services.service';
 import { InfoCase } from './interfaces/info-case';
+import { SkeletonLoaderComponent } from './components/skeleton-loader/skeleton-loader.component'
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, MatSidenavModule, MaterialModule, DialogModule],
+  imports: [CommonModule, MatSidenavModule, MaterialModule, DialogModule, SkeletonLoaderComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })

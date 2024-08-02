@@ -1,0 +1,13 @@
+.loader-container {
+  background-color: rgba(239, 239, 239, 0.6);
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Altura del contenedor, por ejemplo, 100% de la ventana */
+
+  z-index: 10000;
+}
+
+:host ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #5bafff;
+}
