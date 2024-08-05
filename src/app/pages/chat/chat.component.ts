@@ -138,7 +138,6 @@ export class ChatComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private arandaService: ArandaServicesService
   ) {
-    console.log(this.messageService.messagesListSignal().length > 0);
     this.alreadyMessage = this.messageService.messagesListSignal().length > 0 ? true : false;
   }
 
@@ -185,7 +184,7 @@ export class ChatComponent implements OnInit {
       content: input.value,
     };
 
-    this.listMensajes.push(userMessageToSend);
+    //this.listMensajes.push(userMessageToSend);
     //guarda el mensaje en la lista que esta en los servicios de mensajes
     this.messageService.messagesListSignal.update(messages => ([...messages, userMessageToSend]))
 
@@ -201,10 +200,8 @@ export class ChatComponent implements OnInit {
         }
         this.cdr.detectChanges();
         this.scrollToLastMessage();
-        console.log('el signal:',this.messageService.messagesListSignal())
       });
     input.value = '';
-    console.log('el signal:',this.messageService.messagesListSignal())
   }
 
   get messages() {
@@ -273,16 +270,14 @@ export class ChatComponent implements OnInit {
     });
 
           // this.casosService.addCaso(this.casoNuevo);
-          console.log("el body:", this.bodyCasoNuevo)
           const stringBody = JSON.stringify(this.bodyCasoNuevo);
           const stringBodyWithoutAccents = this.removeAccents(stringBody);
 
           this.casosService.createCasoPost(stringBodyWithoutAccents).subscribe((respuesta) => {
-            console.log("caso creado?", respuesta)
           })
         } else {
           this.snackbarService.openCustomSnackbar(
-            'Caso no creado',
+            'El caso no ha sido creado',
             SnackbarType.error
           );
           this.sendMensajeCancelar();
@@ -303,7 +298,7 @@ export class ChatComponent implements OnInit {
       .subscribe((respuesta: BotMessage) => {
         this.botRespuesta = respuesta;
         this.listMensajes.push(this.botRespuesta);
-
+        this.messageService.messagesListSignal.update(messages => ([...messages,  ]))
         this.fecha = new Date();
       });
   }

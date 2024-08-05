@@ -13,8 +13,8 @@ export class CasosService extends CrudService{
   override endpoint = 'aranda-api/list-cases';
   private customEndpoint = 'aranda-api/create-case'
 
+  casosListSignal: WritableSignal<any[]> = signal([]);
 
-  messageList = [];
 
   constructor(http: HttpClient) {
     super(http);
@@ -27,8 +27,6 @@ export class CasosService extends CrudService{
   }
 
   createCasoPost( body : any ): Observable<any>{
-    console.log('lo que mando en el post:', body)
-    console.log('tipo:', typeof body)
     return this.post<any>(body, this.customEndpoint);;
   }
 }

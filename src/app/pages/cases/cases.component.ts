@@ -23,11 +23,35 @@ export class CasesComponent {
     protected themeService: ThemeService,
     protected casosService: CasosService
   ){
+
+    this.casosService.casosListSignal.set([]);
+
     casosService.getCasosPost().subscribe(( respuesta : Caso[] ) => {
-      this.casosList = respuesta;
+      //this.casosList = respuesta;
+
+      this.casosService.casosListSignal.update( (casos) => {
+        console.log(casos);
+        return ([...casos, ...respuesta])
+      })
     });
 
     // this.casosList = casosService.sendCasePost();
+  }
 
+  ngAfterViewInit(){
+    // setTimeout(() => {
+    //   this.casosService.getCasosPost().subscribe(( respuesta : Caso[] ) => {
+    //     //this.casosList = respuesta;
+
+    //     this.casosService.casosListSignal.update( (casos) => {
+    //       console.log(casos);
+    //       return ([...casos, ...respuesta])
+    //     })
+    //   });
+    // }, 5000);
+  }
+
+  get casos() {
+    return this.casosService.casosListSignal();
   }
 }

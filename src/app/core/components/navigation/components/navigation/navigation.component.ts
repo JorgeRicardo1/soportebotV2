@@ -111,7 +111,6 @@ export class NavigationComponent {
 
     const jsonString = JSON.stringify(jsonData);
     this.arandaService.insertUserAranda(jsonString).subscribe(response => {
-      console.log('Response from server:', response);
     }, error => {
       console.error('Error:', error);
     });
