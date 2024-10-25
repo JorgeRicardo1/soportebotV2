@@ -1,4 +1,24 @@
-# ArandaBotChat
+
+# Chat bot
+
+Esta aplicación web, desarrollada en Angular, implementa un chatbot con inteligencia artificial para asistir en la gestión de problemas técnicos reportados en la universidad. El chatbot permite a los usuarios reportar problemas técnicos de forma rápida y eficiente, asignando automáticamente cada caso al departamento correspondiente para su resolución.
+
+## Screenshots
+
+![App Screenshot](https://i.ibb.co/d4JrJHp/chatbot1.png)
+
+![App Screenshot](https://i.ibb.co/JsRjZFB/chatbot2.png)
+
+![App Screenshot](https://i.ibb.co/wzks6QJ/chatbot3.png)
+
+## Funcionalidades principales:
+
+
+Chatbot Inteligente: Recibe y clasifica los reportes de problemas técnicos enviados por los usuarios, asignando cada caso a los equipos correspondientes.
+
+Módulo de Casos Activos: Permite visualizar una lista completa de los casos técnicos activos, con detalles del estado y asignación de cada uno.
+
+Interfaz Amigable: La aplicación ofrece una experiencia de usuario intuitiva para estudiantes, personal y equipos de soporte de la universidad.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.1.
 
