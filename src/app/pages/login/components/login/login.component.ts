@@ -15,7 +15,7 @@ import { SnackbarType } from '../../../../core/components/snackbar/models/snackb
   standalone: true,
   imports: [MaterialModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   logInForm!: FormGroup;
@@ -31,9 +31,7 @@ export class LoginComponent {
     private authService: AuthService,
     private loginService: LoginService,
     private snackbarService: SnackbarService
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.logInForm = this.buildForm();
@@ -58,19 +56,6 @@ export class LoginComponent {
     return this.showPassword ? 'text' : 'password';
   }
 
-  // onSubmit() {
-  //   if (this.logInForm.invalid) {
-  //     // formulario no valido
-  //     return;
-  //   }
-  //   try {
-  //     console.log("sirvo");
-  //     this.router.navigate(['/chat']);
-  //   } catch (error) {
-  //     console.error(`${this.className} => onSubmit`, error);
-  //   }
-  // }
-
   onSubmit() {
     if (this.logInForm.invalid) {
       // formulario no valido
@@ -85,18 +70,17 @@ export class LoginComponent {
             if (token?.token) {
               this.authService.saveToken(token.token);
               this.router.navigate(['./chat']); // Cambiado a ruta absoluta
-            }
-            else{
+            } else {
               this.snackbarService.openCustomSnackbar(
                 'Usuario o contraseña incorrecta',
-                SnackbarType.error,
+                SnackbarType.error
               );
             }
           },
           (error) => {
             console.error(`${this.className} => onSubmit`, error);
             // Manejo adicional de errores si es necesario
-          },
+          }
         );
       this.subscription.add(loginSubscription); // Añadir a la matriz en lugar de sobrescribir
     } catch (error) {
@@ -109,5 +93,4 @@ export class LoginComponent {
       this.subscription.unsubscribe();
     }
   }
-
 }
