@@ -6,16 +6,16 @@
       <img [src]="image" alt="img" class="profile-image" />
     </div>
     <div class="primary-data">
-      <span [matTooltip]="userName"> {{ userInformation.lastName}} {{ userInformation.firstName}} </span>
+      <!-- <span [matTooltip]="userName"> {{ userInformation.lastName}} {{ userInformation.firstName}} </span>
       <span [matTooltip]="userDependencia"> {{ userInformation.dependency}} </span>
-      <span [matTooltip]="userRole">{{ userInformation.charge}}</span>
+      <span [matTooltip]="userRole">{{ userInformation.charge}}</span> -->
     </div>
   </div>
   <div class="settings">
     <button class="theme-button" class="theme-button" (click)="themeService.toggleTheme()" >
       <mat-icon>{{ themeService.theme ? 'light_mode' : 'dark_mode' }}</mat-icon>
     </button>
-    <button class="logout" >Cerrar sesión</button>
+    <button class="logout" (click)="logOut()">Cerrar sesión</button>
     <button class="theme-button" >
       <mat-icon>settings</mat-icon>
     </button>

@@ -12,7 +12,7 @@ import { LayoutComponent } from '../layout/layout.component';
 import { ThemeService } from '../../services/theme.service';
 import { TechModeService } from '../../services/tech-mode.service';
 import { ImagesService } from '../../../../services/images/images.service';
-import { ImageStorageService } from '../../services/image-storage.service'
+import { ImageStorageService } from '../../services/image-storage.service';
 import { AuthService } from '../../../../../auth/auth.service';
 import { UserInformation } from '../../../../../shared/interfaces/user-information.interface';
 import { DataField } from '../../../../../shared/interfaces/data-field-aranda.interface';
@@ -56,9 +56,8 @@ export class NavigationComponent {
     contractType: '',
     dependency: '',
     country: 0,
-    companyId: 0
+    companyId: 0,
   };
-
 
   constructor(
     private router: Router,
@@ -71,7 +70,6 @@ export class NavigationComponent {
     private arandaService: ArandaServicesService
   ) {
     this.imageService.getImage().subscribe((res) => {
-
       const reader = new FileReader();
       reader.readAsDataURL(res);
       reader.onloadend = () => {
@@ -95,13 +93,13 @@ export class NavigationComponent {
 
     // json que se enviará para registrar a un usurio en aranda
     let jsonData: DataField[] = [
-      { Field: "Alias", Value: "" },
-      { Field: "FirstName", Value: "" },
-      { Field: "LastName", Value: "" },
-      { Field: "Email", Value: "" },
-      { Field: "PassWord", Value: "" },
-      { Field: "Document", Value: "" },
-      { Field: "Role", Value: "" }
+      { Field: 'Alias', Value: '' },
+      { Field: 'FirstName', Value: '' },
+      { Field: 'LastName', Value: '' },
+      { Field: 'Email', Value: '' },
+      { Field: 'PassWord', Value: '' },
+      { Field: 'Document', Value: '' },
+      { Field: 'Role', Value: '' },
     ];
 
     // informacion usuario guardada en el local storage traida ya como un objeto
@@ -110,10 +108,12 @@ export class NavigationComponent {
     jsonData = this.fillJsonData(jsonData, storedData);
 
     const jsonString = JSON.stringify(jsonData);
-    this.arandaService.insertUserAranda(jsonString).subscribe(response => {
-    }, error => {
-      console.error('Error:', error);
-    });
+    this.arandaService.insertUserAranda(jsonString).subscribe(
+      (response) => {},
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   onToolbarMenuToggle() {
@@ -150,7 +150,8 @@ export class NavigationComponent {
 
   setUserInformation() {
     this.authService.getUserInfo().subscribe((respuesta: UserInformation) => {
-      localStorage.setItem('InfoUsuario', JSON.stringify(respuesta))
+      console.log('prueba', respuesta);
+      sessionStorage.setItem('InfoUsuario', JSON.stringify(respuesta));
     });
   }
 
@@ -164,22 +165,25 @@ export class NavigationComponent {
 
   // funcion para llenar el json que se le manda al servicio de aranda con la informacion del Usuario
   // para insertarlo en la base de datos de aranda
-  fillJsonData(jsonData: DataField[], storedData: UserInformation): DataField[] {
-    return jsonData.map(field => {
+  fillJsonData(
+    jsonData: DataField[],
+    storedData: UserInformation
+  ): DataField[] {
+    return jsonData.map((field) => {
       switch (field.Field) {
-        case "Alias":
+        case 'Alias':
           return { ...field, Value: storedData.document };
-        case "Document":
+        case 'Document':
           return { ...field, Value: storedData.document };
-        case "FirstName":
+        case 'FirstName':
           return { ...field, Value: storedData.firstName };
-        case "LastName":
+        case 'LastName':
           return { ...field, Value: storedData.lastName };
-        case "Email":
+        case 'Email':
           return { ...field, Value: storedData.email };
-        case "PassWord":
+        case 'PassWord':
           return { ...field, Value: storedData.passWord };
-        case "Role":
+        case 'Role':
           return { ...field, Value: storedData.role.toString() };
         default:
           return field;

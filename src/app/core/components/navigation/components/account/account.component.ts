@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [MaterialModule, CommonModule],
   templateUrl: './account.component.html',
-  styleUrl: './account.component.css'
+  styleUrl: './account.component.css',
 })
 export class AccountComponent {
   userName: string = 'usuario';
@@ -23,30 +23,14 @@ export class AccountComponent {
   defaultImage = 'https://media2.utp.edu.co/imagenes/Logo-UTP-Azul.png';
   image: any = this.defaultImage;
 
-  userInformation : UserInformation = {
-    document: '1004752660',
-    identityType: 0,
-    firstName: '',
-    lastName: '',
-    email: '',
-    passWord: '',
-    role: 0,
-    charge: '',
-    contractType: '',
-    dependency: '',
-    country: 0,
-    companyId: 0
-  };
-
   private subscription = new Subscription();
 
   constructor(
     private router: Router,
     protected themeService: ThemeService,
     private loginService: LoginService,
-    private cd: ChangeDetectorRef,
-    private authService: AuthService,
-  ){
+    private authService: AuthService
+  ) {
     const storedImage = sessionStorage.getItem('userImage');
     if (storedImage) {
       this.image = storedImage;
@@ -55,26 +39,23 @@ export class AccountComponent {
     const userInfo = localStorage.getItem('InfoUsuario');
     const parsedUserInfo = userInfo ? JSON.parse(userInfo) : null;
 
+    console.log('información usuario', localStorage);
+
     // Si userInfo es un array, tomamos el primer elemento
-    this.userInformation = Array.isArray(parsedUserInfo) ? parsedUserInfo[0] : parsedUserInfo;
-
-  }
-
-  ngOnInit(){
-
-    // this.subscription.add(
-    //   this.loginService.userInformation$.subscribe(info => {
-    //     this.userInformation = info;
-    //     // console.log('account', info)
-    //     this.cd.detectChanges(); // Forzar la detección de cambios
-    //     // console.log('account2', this.userInformation)
-    //   })
-    // );
+    // this.userInformation = Array.isArray(parsedUserInfo)
+    //   ? parsedUserInfo[0]
+    //   : parsedUserInfo;
   }
 
   logOut(): void {
+    // Llamar al servicio de autenticación para cerrar sesión
     this.authService.logOut();
+
+    // Eliminar cualquier información del usuario almacenada
     sessionStorage.removeItem('userImage');
+    localStorage.removeItem('InfoUsuario');
+
+    // Redirigir al usuario a la pantalla de inicio de sesión
     this.router.navigate(['/login']);
   }
 
@@ -85,5 +66,4 @@ export class AccountComponent {
       URL.revokeObjectURL(this.image);
     }
   }
-
 }
